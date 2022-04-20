@@ -3,16 +3,26 @@ import httpx
 import jinja2
 from pathlib import Path
 from typing import List, Union
-from nonebot import get_driver
 from nonebot.log import logger
-from nonebot_plugin_apscheduler import scheduler
-from nonebot_plugin_htmlrender import html_to_pic
+#from nonebot_plugin_apscheduler import scheduler
+#from nonebot_plugin_htmlrender import html_to_pic
 
+from os import getcwd
+from pathlib import Path
 
-from .config import Config
+import aiofiles
+import jinja2
+import markdown
+from jinja2.environment import Template
+from nonebot.log import logger
+from typing import Optional
+from .browser import get_new_page
+from .htmlrender import html_to_pic
 
-dd_config = Config.parse_obj(get_driver().config.dict())
+with open('./hoshino/modules/hoshinobot-plugin-ddcheck/config.json','r', encoding='UTF-8') as json_data_file:
+    config = json.load(json_data_file)
 
+bilibili_cookie = config['cookie']
 data_path = Path("data/ddcheck")
 vtb_list_path = data_path / "vtb_list.json"
 
@@ -43,15 +53,10 @@ async def update_vtb_list():
                 break
             except httpx.TimeoutException:
                 logger.warning(f"Get {url} timeout")
+                msg = "成分姬：自动更新vtb列表失败"
     dump_vtb_list(vtb_list)
-
-
-scheduler.add_job(
-    update_vtb_list,
-    "cron",
-    hour=3,
-    id="update_vtb_list",
-)
+    msg = "成分姬：自动更新vtb列表成功"
+    return msg
 
 
 def load_vtb_list() -> List[dict]:
@@ -116,7 +121,7 @@ async def get_medals(uid: int) -> List[dict]:
     try:
         url = "https://api.live.bilibili.com/xlive/web-ucenter/user/MedalWall"
         params = {"target_id": uid}
-        headers = {"cookie": dd_config.bilibili_cookie}
+        headers = {"cookie": bilibili_cookie}
         async with httpx.AsyncClient() as client:
             resp = await client.get(url, params=params, headers=headers)
             result = resp.json()
@@ -183,3 +188,4 @@ async def get_reply(name: str) -> Union[str, bytes]:
     template = env.get_template("info.html")
     content = await template.render_async(info=result)
     return await html_to_pic(content, wait=0, viewport={"width": 100, "height": 100})
+

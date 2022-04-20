@@ -1,15 +1,17 @@
 # nonebot-plugin-ddcheck
 
-NoneBot2 成分姬插件
+Hoshinobot 成分姬插件
 
 查询B站关注列表的VTuber成分，并以图片形式发出
+
+插件移植自[nonebot-plugin-ddcheck](https://github.com/noneplugin/nonebot-plugin-ddcheck)
 
 VTB列表数据来源：[vtbs.moe](https://vtbs.moe/)
 
 
 ### 使用方式
 
-**以下命令需要加[命令前缀](https://v2.nonebot.dev/docs/api/config#Config-command_start) (默认为`/`)，可自行设置为空**
+**以下命令需要加[命令前缀](https://v2.nonebot.dev/docs/api/config#Config-command_start) (默认为`/`)，可自行在bot.py中的COMMAND_START设置为空**
 
 ```
 查成分 + B站用户名/UID
@@ -18,22 +20,16 @@ VTB列表数据来源：[vtbs.moe](https://vtbs.moe/)
 
 ### 安装
 
-- 使用 nb-cli
-
 ```
-nb plugin install nonebot_plugin_ddcheck
-```
-
-- 使用 pip
-
-```
-pip install nonebot_plugin_ddcheck
+git clone https://github.com/benx1n/hoshinobot-plugin-ddcheck.git
+pip install -r requirements.txt
+在bot.py中添加'hoshinobot-plugin-ddcheck'
 ```
 
-若要显示主播牌子，需要在 `.env.xxx` 文件中添加任意的B站用户cookie：
+若要显示主播牌子，需要在 `.config.json` 文件中添加任意的B站用户cookie：
 
 ```
-bilibili_cookie=xxx
+"cookie" = "xxx"
 ```
 
 
