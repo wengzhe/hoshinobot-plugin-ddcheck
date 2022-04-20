@@ -22,7 +22,11 @@ VTB列表数据来源：[vtbs.moe](https://vtbs.moe/)
 
 ```
 git clone https://github.com/benx1n/hoshinobot-plugin-ddcheck.git
+
 pip install -r requirements.txt
+
+将config_example.json重命名为config.json
+
 在bot.py中添加'hoshinobot-plugin-ddcheck'
 ```
 
