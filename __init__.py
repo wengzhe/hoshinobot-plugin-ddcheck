@@ -59,7 +59,7 @@ async def ddcheck(bot, ev: CQEvent):
         
 @sv.scheduled_job('cron',hour='4')
 async def scheduled_job1():
-    msg = update_vtb_list()
+    msg = await update_vtb_list()
     bot = hoshino.get_bot()
     superid = hoshino.config.SUPERUSERS[0]
     await bot.send_private_msg(user_id=superid, message=msg)

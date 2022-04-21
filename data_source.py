@@ -34,6 +34,7 @@ env = jinja2.Environment(
 
 
 async def update_vtb_list():
+    msg = "成分姬：自动更新vtb列表失败"
     vtb_list = load_vtb_list()
     urls = [
         "https://api.vtbs.moe/v1/short",
@@ -53,7 +54,6 @@ async def update_vtb_list():
                 break
             except httpx.TimeoutException:
                 logger.warning(f"Get {url} timeout")
-                msg = "成分姬：自动更新vtb列表失败"
     dump_vtb_list(vtb_list)
     msg = "成分姬：自动更新vtb列表成功"
     return msg
