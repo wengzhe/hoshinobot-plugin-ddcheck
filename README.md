@@ -1,4 +1,4 @@
-# nonebot-plugin-ddcheck
+# hoshinobot-plugin-ddcheck
 
 Hoshinobot 成分姬插件
 
