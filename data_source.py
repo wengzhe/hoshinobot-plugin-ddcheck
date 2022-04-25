@@ -7,16 +7,10 @@ from nonebot.log import logger
 #from nonebot_plugin_apscheduler import scheduler
 #from nonebot_plugin_htmlrender import html_to_pic
 
-from os import getcwd
 from pathlib import Path
 
-import aiofiles
 import jinja2
-import markdown
-from jinja2.environment import Template
 from nonebot.log import logger
-from typing import Optional
-from .browser import get_new_page
 from .htmlrender import html_to_pic
 
 with open('./hoshino/modules/hoshinobot-plugin-ddcheck/config.json','r', encoding='UTF-8') as json_data_file:
