@@ -35,6 +35,7 @@ pip install -r requirements.txt
 ```
 "cookie" = "xxx"
 ```
+初次运行时由于需要下载chromium故可能会等待较长时间，请关注控制台输出的进度条
 
 
 ### 示例
