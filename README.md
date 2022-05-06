@@ -35,8 +35,15 @@ pip install -r requirements.txt
 ```
 "cookie" = "xxx"
 ```
-初次运行时由于需要下载chromium故可能会等待较长时间，请关注控制台输出的进度条
+初次运行时由于需要下载chromium故可能会等待较长时间，请关注控制台输出的进度条<br><br>
 
+### 已知问题
+由于windows下playwright无法兼容SelectorEventLoop，如果您的其他插件中包含有如下代码（一般是用于解决aiohttp的代理问题）
+```
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+```
+详情请见[#1](https://github.com/benx1n/hoshinobot-plugin-ddcheck/issues/1)
+已知有冲突的插件：setu_renew
 
 ### 示例
 
