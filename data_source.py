@@ -1,3 +1,4 @@
+import math
 import json
 import httpx
 import jinja2
@@ -170,6 +171,7 @@ async def get_reply(name: str) -> Union[str, bytes]:
     follows_num = int(user_info["attention"])
     vtbs_num = len(vtbs)
     percent = vtbs_num / follows_num * 100 if follows_num else 0
+    num_per_col = math.ceil(vtbs_num / math.ceil(vtbs_num / 100)) if vtbs_num else 1
     result = {
         "name": user_info["name"],
         "uid": user_info["mid"],
@@ -178,6 +180,7 @@ async def get_reply(name: str) -> Union[str, bytes]:
         "follows": user_info["attention"],
         "percent": f"{percent:.2f}% ({vtbs_num}/{follows_num})",
         "vtbs": vtbs,
+        "num_per_col": num_per_col,
     }
     template = env.get_template("info.html")
     content = await template.render_async(info=result)
