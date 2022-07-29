@@ -63,7 +63,10 @@ async def scheduled_job1():
     bot = hoshino.get_bot()
     msg = await update_vtb_list()
     superid = hoshino.config.SUPERUSERS[0]
-    sid = bot.get_self_ids() # bot账号
+    sid = hoshino.get_self_ids() # 获取bot账号列表
     if len(sid) > 0: # 若bot账号数量大于0，则随机选择一个号向超级管理员发送消息
         sid = random.choice(sid)
-        await bot.send_private_msg(self_id=sid, user_id=superid, message=msg)
+        try:
+            await bot.send_private_msg(self_id=sid, user_id=superid, message=msg)
+        except Exception as e:
+            hoshino.logger.error(f'向超级管理员发送更新消息失败：{type(e)}')
