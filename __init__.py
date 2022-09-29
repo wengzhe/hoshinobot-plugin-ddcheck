@@ -39,25 +39,19 @@ async def ddcheck(bot, ev: CQEvent):
         await bot.send(ev, '请在指令后跟随用户昵称或uid哦~')
         return
 
-        
     try:
         res = await get_reply(text)
-        img= Image.open(BytesIO(res))
-        img_base64= base64.b64encode(res).decode('utf8')
+        if isinstance(res, str):
+            await bot.send(ev, res)
+        else:
+            img = Image.open(BytesIO(res))
+            img_base64 = base64.b64encode(res).decode('utf8')
+            await bot.send(ev,str(MessageSegment.image("base64://" + img_base64)))
     except:
         logger.warning(traceback.format_exc())
-        await bot.send(ev, "请检查昵称或uid是否正确哦～")
-        return
-        
-    if isinstance(res, str):
         await bot.send(ev, "出错了，请稍后再试")
-        return
-        
-    else:
-        
-        await bot.send(ev,str(MessageSegment.image("base64://" + img_base64)))
-        
-        
+
+
 @sv.scheduled_job('cron', hour='4', minute='30')
 async def scheduled_job1():
     bot = hoshino.get_bot()
