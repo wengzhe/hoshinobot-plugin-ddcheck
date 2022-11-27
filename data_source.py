@@ -189,3 +189,14 @@ async def get_reply(name: str) -> Union[str, bytes]:
     content = await template.render_async(info=result)
     return await html_to_pic(content, wait=0, viewport={"width": 100, "height": 100})
 
+
+async def get_user(name: str) -> str:
+    if name.isdigit():
+        uid = int(name)
+    else:
+        uid = await get_uid_by_name(name)
+    user_info = await get_user_info(uid)
+    if not user_info:
+        return "获取用户信息失败，请检查名称或使用uid查询"
+
+    return f'{user_info["name"]}({user_info["mid"]})\n关注数{user_info["attention"]} 粉丝数{user_info["fans"]}'

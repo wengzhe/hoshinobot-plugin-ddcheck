@@ -16,7 +16,7 @@ from hoshino.util import FreqLimiter, DailyNumberLimiter
 from hoshino.typing import CQEvent, MessageSegment
 from nonebot import on_command
 
-from .data_source import get_reply,update_vtb_list
+from .data_source import get_reply, get_user, update_vtb_list
 
 sv = Service('ddcheck', manage_priv=priv.SUPERUSER, enable_on_default=True)
 
@@ -47,6 +47,21 @@ async def ddcheck(bot, ev: CQEvent):
             img = Image.open(BytesIO(res))
             img_base64 = base64.b64encode(res).decode('utf8')
             await bot.send(ev,str(MessageSegment.image("base64://" + img_base64)))
+    except:
+        logger.warning(traceback.format_exc())
+        await bot.send(ev, "出错了，请稍后再试")
+
+
+@sv.on_prefix(('查用户', '粉丝数', '关注数'))
+async def usercheck(bot, ev: CQEvent):
+    text = str(ev.message).strip()
+    if not text:
+        await bot.send(ev, '请在指令后跟随用户昵称或uid哦~')
+        return
+
+    try:
+        res = await get_user(text)
+        await bot.send(ev, res)
     except:
         logger.warning(traceback.format_exc())
         await bot.send(ev, "出错了，请稍后再试")
